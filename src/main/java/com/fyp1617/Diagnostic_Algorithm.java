@@ -3,6 +3,7 @@ package com.fyp1617;
 
 import java.util.LinkedList;
 
+//Node class contains attributes aquired from the excel file
 class Node{
     private int id;
     private String label;
@@ -45,7 +46,7 @@ class Node{
     }
 }
 
-
+//Edge class contains attributes aquiered from excel file
 class Edge{
     private int sourceID;
     private int targetID;
@@ -72,11 +73,16 @@ class Edge{
     }
 }
 
+//A diagnostic algorithm contains list of nodes and list of edges
+//It also contains functions that are used later in the project
+//From this algorithm we can create a graph in any requiered format
+//And pass it to graph analysis/processing algorithms or visualization tools
 public class Diagnostic_Algorithm {
     private LinkedList<Node> nodes;
     private LinkedList<Edge> edges;
     private String name;
     
+    //Each algorithm will be assigned an ID to compare with others
     private int ID;
     
     public Diagnostic_Algorithm() {
@@ -112,6 +118,7 @@ public class Diagnostic_Algorithm {
         return name;
     }
     
+    //To add a node first check that no other nodes with same ID exist
     public boolean addNode(Node n){
         for(int i=0;i<nodes.size();i++){
             if(nodes.get(i).getID()==n.getID())
@@ -120,28 +127,29 @@ public class Diagnostic_Algorithm {
         nodes.add(n);
         return true;
     }
-    public boolean deleteNode(int i){
-        if(nodes.get(i)==null){
-            return false;
+    //To delete a node 
+    public boolean deleteNode(int id){
+        for(int i=0;i<nodes.size();i++){
+            if(nodes.get(i).getID()==id){
+                nodes.remove(i);
+                return true;
+            }
         }
-        else {
-            nodes.set(i,null);
-            return true;
-        }
+        return false;
     }
+    //To delete a node and all edges having this node as an end
     public boolean deleteNodeEdges(int i){
-        if(nodes.get(i)==null){
-            return false;
-        }
-        else {
+        if(deleteNode(i)){
             for(int j=0;j<edges.size();j++){
                 if(edges.get(j).getSource()==i || edges.get(j).getTarget()==i)
                     edges.remove(j);
             }
-            nodes.set(i,null);
             return true;
         }
+        else return false;
     }
+    
+    //Searchs for a node by ID
     public Node getNode(int id){
         for(int i=0;i<nodes.size();i++){
             if(nodes.get(i).getID()==id)
@@ -152,6 +160,7 @@ public class Diagnostic_Algorithm {
         return n;
     }
     
+    //To add an edge first check if both ends are in the graph
     public boolean addEdge(Edge e){
         if(getNode(e.getSource()).getID()!=0 && getNode(e.getTarget()).getID()!=0){
             edges.add(e);
@@ -160,6 +169,8 @@ public class Diagnostic_Algorithm {
         else
             return false;
     }
+    
+    //Delete an edge using ID
     public boolean deleteEdge(Edge e){
         for(int i=0;i<edges.size();i++){
             if(edges.get(i)==e){
@@ -169,6 +180,8 @@ public class Diagnostic_Algorithm {
         }
         return false;
     }
+    
+    //Return the label of the edge given its two ends
     public String getEdge(Edge e){
         for(int i=0;i<edges.size();i++){
             if(edges.get(i).getSource()==e.getSource() && edges.get(i).getTarget()==e.getTarget()){
@@ -178,10 +191,18 @@ public class Diagnostic_Algorithm {
         return null;
     }
     
-    public LinkedList containsTerm(String term){
+    //Check for the occurence of terms in the graph
+    //The method returns IDs of the nodes containing matched terms
+    //This function can be edited --or optimized-- based on further reqirements
+    public LinkedList containsTerm(String[] terms){
         LinkedList result = new LinkedList();
         for(int i=0;i<nodes.size();i++){
-            
+            for(int j=0;j<terms.length;j++){
+                if(nodes.get(i).getLabel().contains(terms[j])){
+                    result.remove(i);
+                    result.add(i);
+                }
+            }
         }
         return result;
     }
