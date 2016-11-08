@@ -199,7 +199,8 @@ public class Diagnostic_Algorithm {
         for(int i=0;i<nodes.size();i++){
             for(int j=0;j<terms.length;j++){
                 if(nodes.get(i).getLabel().contains(terms[j])){
-                    result.remove(i);
+                    if (!result.contains(i))
+                    
                     result.add(i);
                 }
             }

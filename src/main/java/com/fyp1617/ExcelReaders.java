@@ -92,8 +92,8 @@ public class ExcelReaders {
     
     //A function that passes over all graphs in the project directory
     //and stores them in a list of DAs
-    public static LinkedList<Diagnostic_Algorithm> ReadAllGraphs() throws IOException{
-        LinkedList<Diagnostic_Algorithm> DAs = new LinkedList<Diagnostic_Algorithm>();
+    public static Algorithms_Graph ReadAllGraphs() throws IOException{
+        Algorithms_Graph DAs = new Algorithms_Graph();
         //Path to the folder containing excel files
         String Path = "src\\DA_Excel\\";
         String fullPath;
@@ -105,7 +105,7 @@ public class ExcelReaders {
             Diagnostic_Algorithm DA = ReadFullGraph(fullPath);
             //Set the ID of the DA equal to the name of the excel file
             DA.setID(i);
-            DAs.add(DA);
+            DAs.addDA(DA);
         }
         return DAs;
     }

@@ -30,10 +30,12 @@ public class Algorithms_Graph {
     //This function checks the occurence of a list of terms in all algorithms
     //and returns a list of indexes of all DAs that contain these terms
     //This function is still not implemented at this point
-    public LinkedList FindTerms(LinkedList<String> term_list){
+    public LinkedList FindTerms(String[] terms){
         LinkedList DA_index = new LinkedList();
         for(int i=0;i<Algorithms_List.size();i++){
-            
+            if (Algorithms_List.get(i).containsTerm(terms).size()!=0){
+               DA_index.add(i);
+            }
         }
         return DA_index;
     }
